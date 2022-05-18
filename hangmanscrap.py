@@ -61,20 +61,14 @@ failedguesses = 0
 lives_left = (8 - failedguesses)
 alphabet = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
                              #variable list
-print(pics[failedguesses])
 state = "playing"
-char_list = []
+
 
 while state == "playing":     #games on
-    guess = input("please enter a character\n")
-    if len(guess) != 1:
-        print("more or less than 1 character detected\n")
-        continue
-    elif guess not in alphabet:
-        print("guess not in the alphabet\n")
-        continue
-    else:
-        char_list = []
+    char_list = []
+    print(pics[failedguesses])
+    guess = input("please enter a word or character\n")
+    if len(guess) == 1:
         if guess in selected_word:
             for letterindex in range(len(selected_word)):
                 if (selected_word[letterindex - 1] == guess):
@@ -86,20 +80,53 @@ while state == "playing":     #games on
                 hidden_word[(index - 1)] = guess
                 print(hidden_word)
                 print("correct")
-                print(pics[failedguesses])
         else:
             failedguesses += 1
             print(failedguesses)
             lives_left = (7 - failedguesses)
+            print("Incorrect ", lives_left, " lives left")
             print(lives_left)
             if lives_left == 0:
                 print("Incorrect no lives left")
-                print(pics[failedguesses])
                 print("Game Over")
                 state = "finished"
                 quit()
-            else:
-                print("Incorrect ",lives_left," lives left")
-                print(pics[failedguesses])
+
+
+
+    elif len(guess) > 1:
+        for guessed_char in guess:
+            if guessed_char in selected_word:
+                char_list = []
+                if guessed_char in selected_word:
+                    for letterindex in range(len(selected_word)):
+                        if (selected_word[letterindex - 1] == guessed_char):
+                            char_list.append(letterindex)
+                    print(char_list)
+                    print(type(char_list[0]))
+                    for index in char_list:
+                        print(index)
+                        hidden_word[(index - 1)] = guessed_char
+                        print(hidden_word)
+                        print("correct")
+                else:
+                    failedguesses += 1
+                    print(failedguesses)
+                    lives_left = (7 - failedguesses)
+                    print("Incorrect ", lives_left, " lives left")
+                    print(lives_left)
+                    if lives_left == 0:
+                        print("Incorrect no lives left")
+                        print("Game Over")
+                        state = "finished"
+                        quit()
+
+    elif len(guess) < 1:
+        continue
+
+    elif guess not in alphabet:
+        print("guess not in the alphabet\n")
+        continue
+
 
 
