@@ -39,7 +39,7 @@ while type(hidden_word_char_number) == str: #gives user the option to select the
 #wordlistdoc = open("wordlist2.txt","r")
 selected_word = ""
 with open("wordlist2.txt") as wordlistdoc: #txt document as a word base
-    for line in wordlistdoc:               #for each line in the text file
+    for line in wordlistdoc:              #for each line in the text file
         print(line)                       #display the line
         print(len(line)-1) # -1 is used becuase it prints the char count +1
         if (len(line)-1) == hidden_word_char_number:   #if the number of characters in one of the words lines matches the user input it is chosen
@@ -63,19 +63,26 @@ lives_left = (8 - failedguesses)
 alphabet = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
                              #variable list
 state = "playing"
-guesses_made = []
+guess_attempts = []
+guesses_made = 0
 
 while state == "playing":     #games on
     char_list = []
     print(pics[failedguesses])
+    if guesses_made == 0:
+        print("no guesses made yet\n")
+    else:
+        print("You have tried\n", guess_attempts)
     guess = input("please enter a word or character\n")
-    if guess in guesses_made:
+
+    if guess in guess_attempts:
         print("you already tried this")
         continue
     else:
-        guesses_made.append(guess)
+        guess_attempts.append(guess)
 
     if guess in line:
+        guesses_made += 1
         if len(guess) == 1:
             if guess in selected_word:
                 for letterindex in range(len(selected_word)):
@@ -90,12 +97,12 @@ while state == "playing":     #games on
                     print("correct")
             else:
                 failedguesses += 1
-                print(failedguesses)
+                #print(failedguesses)
                 lives_left = (7 - failedguesses)
                 print("Incorrect ", lives_left, " lives left")
-                print(lives_left)
+                #print(lives_left)
                 if lives_left == 0:
-                    print("Incorrect no lives left")
+                    print("You have no lives left")
                     print("Game Over")
                     state = "finished"
                     quit()
@@ -117,10 +124,10 @@ while state == "playing":     #games on
                             print("correct")
                     else:
                         failedguesses += 1
-                        print(failedguesses)
+                        #print(failedguesses)
                         lives_left = (7 - failedguesses)
                         print("Incorrect ", lives_left, " lives left")
-                        print(lives_left)
+                        #print(lives_left)
                         if lives_left == 0:
                             print("Incorrect no lives left")
                             print("Game Over")
@@ -140,12 +147,12 @@ while state == "playing":     #games on
     else:
         print("incorrect guess not even close\n")
         failedguesses += 1
-        print(failedguesses)
+        #print(failedguesses)
         lives_left = (7 - failedguesses)
-        print("Incorrect ", lives_left, " lives left")
-        print(lives_left)
+        print(lives_left, " lives left")
+        #print(lives_left)
         if lives_left == 0:
-            print("Incorrect no lives left")
+            print("no lives left")
             print("Game Over")
             state = "finished"
             quit()
