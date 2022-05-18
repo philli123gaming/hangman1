@@ -63,12 +63,18 @@ lives_left = (8 - failedguesses)
 alphabet = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
                              #variable list
 state = "playing"
-
+guesses_made = []
 
 while state == "playing":     #games on
     char_list = []
     print(pics[failedguesses])
     guess = input("please enter a word or character\n")
+    if guess in guesses_made:
+        print("you already tried this")
+        continue
+    else:
+        guesses_made.append(guess)
+
     if guess in line:
         if len(guess) == 1:
             if guess in selected_word:
@@ -128,7 +134,19 @@ while state == "playing":     #games on
             print("guess not in the alphabet\n")
             continue
 
+    elif "0" in guess or "1" in guess or "2" in guess or "3" in guess or "4" in guess or "5" in guess or "6" in guess or "7" in guess or "8" in guess or "9" in guess:
+        print("numbers aren't accepted")
+
     else:
         print("incorrect guess not even close\n")
-
+        failedguesses += 1
+        print(failedguesses)
+        lives_left = (7 - failedguesses)
+        print("Incorrect ", lives_left, " lives left")
+        print(lives_left)
+        if lives_left == 0:
+            print("Incorrect no lives left")
+            print("Game Over")
+            state = "finished"
+            quit()
 
