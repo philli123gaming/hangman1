@@ -88,6 +88,7 @@ while state == "playing":     #games on
         print("You have tried\n", guess_attempts)
 
     guess = input("please enter a word or character (in lowercase if you would)\n")
+    guess = guess.lower()
 
     if guess in guess_attempts:
         print("you already tried this")
@@ -150,8 +151,8 @@ while state == "playing":     #games on
             continue
 
     elif "0" in guess or "1" in guess or "2" in guess or "3" in guess\
-        or "4" in guess or "5" in guess or "6" in guess or "7" in guess\
-        or "8" in guess or "9" in guess:
+            or "4" in guess or "5" in guess or "6" in guess or "7" in guess\
+            or "8" in guess or "9" in guess:
         print("numbers aren't accepted")
 
     else:
@@ -169,7 +170,6 @@ while state == "playing":     #games on
     elif selected_word_array == hidden_word:
         print(pics[failedguesses])
         print(hidden_word)
-        print(lives_left)
         if lives_left == 7:
             print("In one try? How? anyway")
         elif lives_left == 0:
