@@ -1,4 +1,5 @@
 import random
+import string
 
 pics = ["  +---+\n      |\n      |\n      |\n      |\n      |\n=========",
 
@@ -21,13 +22,12 @@ answer = "neither" #starting answer
 while answer != "Y" or answer != "y": #start confirmation
     answer = input("Do you want to play\n")
     if answer == "Y" or answer == "y":
-        break # starts game
+        break  # starts game
     if  answer == "n" or answer == "N":
         print("ok then Bye")
         quit() # self explanatory will need to restart script
     elif answer != "N" and answer != "n" and answer != "Y" and answer != "y":
         print("that answer doesnt work") #catches any other answer that is unclear
-
 print("Lets begin")
 
 hidden_word_char_number = ""
@@ -71,7 +71,8 @@ for char in range(hidden_word_char_number):       #for each character in user in
 
 failedguesses = 0
 lives_left = (7 - failedguesses)
-alphabet = ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+alphabet = string.ascii_letters
+
                              #variable list
 state = "playing"
 guess_attempts = []
@@ -82,34 +83,49 @@ while state == "playing":     #games on
     char_list = []
     print(pics[failedguesses])
     print(hidden_word)
+    print(len(guess_attempts))
+    print(guesses_made)
+
     if guesses_made == 0:
         print("no guesses made yet\n")
+    elif guesses_made != 0 and len(guess_attempts) == 0:
+        print("no Genuine guesses made yet\n")
     else:
         print("You have tried\n", guess_attempts)
 
     guess = input("please enter a word or character (in lowercase if you would)\n")
+    for char in guess:
+        if char not in alphabet:
+            print("Character not in the alphabet\n")
+            break
+    print("loop broken")
     guess = guess.lower()
 
-    if guess in guess_attempts:
+    if len(guess) < 1:
+        print("please enter something")
+        continue
+
+    if guess in guess_attempts :
         print("you already tried this")
         continue
     elif "0" in guess or "1" in guess or "2" in guess or "3" in guess \
         or "4" in guess or "5" in guess or "6" in guess or "7" in guess \
-        or "8" in guess or "9" in guess:
+            or "8" in guess or "9" in guess:
         print("numbers aren't accepted")
         continue
-    else:
+    elif guess not in guess_attempts and char in alphabet:
         guess_attempts.append(guess)
-        guesses_made += 1
+        print(guess_attempts)
 
+    guesses_made += 1
     if guess in selected_word:
         if len(guess) == 1:
             if guess in selected_word:
                 for letterindex in range(len(selected_word)):
                     if (selected_word[letterindex] == guess):
                         char_list.append(letterindex)
-                print(char_list)
-                print(type(char_list[0]))
+                #print(char_list)
+                #print(type(char_list[0]))
                 for index in char_list:
                     #print(index)
                     char_list = []
@@ -124,39 +140,11 @@ while state == "playing":     #games on
 
 
         elif len(guess) > 1:
-            for guessed_char in guess:
-                if guessed_char in selected_word:
-                    for letterindex in range(len(selected_word)):
-                        if (selected_word[letterindex] == guessed_char):
-                            char_list.append(letterindex)
-                    #print(char_list)
-                    #print(type(char_list[0]))
-                    for index in char_list:
-                        char_list = []
-                        hidden_word[index] = guessed_char
-
-                else:
-                    failedguesses += 1
-                    #print(failedguesses)
-                    lives_left = (7 - failedguesses)
-                    print("Incorrect ", lives_left, " lives left")
-                    #print(lives_left)
-            print("correct")
-
-        elif len(guess) < 1:
-            continue
-
-        elif guess not in alphabet:
-            print("guess not in the alphabet\n")
-            continue
-
-    elif "0" in guess or "1" in guess or "2" in guess or "3" in guess\
-            or "4" in guess or "5" in guess or "6" in guess or "7" in guess\
-            or "8" in guess or "9" in guess:
-        print("numbers aren't accepted")
+            if guess == selected_word:
+                print("continued")
 
     else:
-        print("incorrect guess not even close\n")
+        print("incorrect guess \n")
         failedguesses += 1
         #print(failedguesses)
         lives_left = (7 - failedguesses)
@@ -167,7 +155,7 @@ while state == "playing":     #games on
         print("Game Over")
         state = "finished"
         quit()
-    elif selected_word_array == hidden_word:
+    elif selected_word_array == hidden_word or guess == selected_word:
         print(pics[failedguesses])
         print(hidden_word)
         if lives_left == 7:
@@ -179,3 +167,4 @@ while state == "playing":     #games on
         quit()
 
 
+print("extra")
